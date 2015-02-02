@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require File.expand_path('../../lib/nxnznv', __FILE__)
+
+options = Nxnznv.default_options :verbose => true
+hdn = Nxnznv::API.new(options)
+
+require 'yaml'
+
+class Array
+  # works on 2dimensional arrays
+  def to_csv
+    map { |e| e.to_a * ',' } * "\n"
+  end
+end
+
+## These return an Array of Objects
+# puts hdn.contacts.to_csv
+# puts hdn.archive_locations.to_csv
+puts hdn.config_cpcodes.to_csv
+puts hdn.net_storage_cpcodes.to_csv
+# puts hdn.countries.to_csv
+
+## These return a Hash
+# puts hdn.delivery_formats
+# puts hdn.edge_maps
+# puts hdn.ingest_formats

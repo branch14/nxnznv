@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+LINEFORMAT = '% -20s % -55s % -7s % 4s (%s - %s)'
+TIMEFORMAT = '%Y-%m-%d %H:%M:%S'
+
+def format(name, stream, start, stop, ctime)
+  start_str = start==0 ? 'no time' : Time.at(start/1000).utc.strftime(TIMEFORMAT)
+  stop_str = stop==0 ? 'no time' : Time.at(stop/1000).utc.strftime(TIMEFORMAT)
+  days = (start and stop) ? (stop-start)/(1000*60*60*24) : '-'
+  ctime_str = ctime.strftime(TIMEFORMAT)
+  LINEFORMAT % [ctime_str, name, stream, days, start_str, stop_str]
+end
+
+ctime = Time.now
+input = ARGF.read
+input.split("\n").each do |line|
+  domain, stream_id, event_name, start, stop = line.split(',')
+  name = [ domain, stream_id, event_name ] * '/'
+  stop = Time.now.utc.to_i*1000 if stop.nil?
+  puts format(name, 'prim/back', start.to_i, stop.to_i, ctime)
+end
+
