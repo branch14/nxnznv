@@ -1,7 +1,7 @@
 Nxnznv
 ======
 
-Ruby library and command line client to Akamai HdNetwork REST API.
+Ruby library and command line client to Akamai MCD REST API.
 
 
 Installation
